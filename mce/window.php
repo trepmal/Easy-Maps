@@ -9,42 +9,7 @@ if ( ! defined('ABSPATH') )
 	<title>Easy Map</title>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<script language="javascript" type="text/javascript" src="<?php echo includes_url('js/tinymce/tiny_mce_popup.js'); ?>"></script>
-	<script language="javascript" type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-	<script language="javascript" type="text/javascript" src="<?php echo plugins_url( 'maps.js', __FILE__ ); ?>"></script>
 	<base target="_self" />
-<script type="text/javascript">
-function insertLink(evt) {
-
-	var tagtext;
-
-	//get the form values
-	var lat = document.getElementById('latitude').value;
-	var lng = document.getElementById('longitude').value;
-	var zoom = document.getElementById('map_zoom').value;
-	var type = document.getElementById('map_type').value;
-	var bubble = document.getElementById('bubble').value;
-
-	//double-check that our video id is set and setup shortcode
-	// if (album_id != 0 )
-		tagtext = '[map lat='+ lat +' lng='+ lng +' zoom='+ zoom +' type='+ type +']';
-		if ( bubble != '' )
-			tagtext += bubble + '[/map]';
-	// else
-		// tinyMCEPopup.close();
-
-	if(window.tinyMCE) {
-		//send the shortcode to the editor
-		window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, tagtext);
-		//Peforms a clean up of the current editor HTML.
-		tinyMCEPopup.editor.execCommand('mceCleanup');
-		//Repaints the editor. Sometimes the browser has graphic glitches.
-		tinyMCEPopup.editor.execCommand('mceRepaint');
-		//close the popup window
-		tinyMCEPopup.close();
-	}
-	return;
-}
-</script>
 <style>
 #search {
 	background: white;
@@ -53,7 +18,6 @@ function insertLink(evt) {
 }
 #address {
 	font-size: 15px;
-	/*padding: 0 100px 0 0;*/
 	padding: 3px 0;
 	width: 100%;
 	border: 0;
@@ -89,66 +53,38 @@ td {
 </head>
 <body id="link" style="display: none">
 	<form action="#">
-		<!-- <div class="tabs">
-			<ul>
-				<li class="current"><span>Select an album</span></li>
-			</ul>
-		</div> -->
-
-		<!-- <div class="panel_wrapper"> -->
 		<table border="0" cellpadding="4" cellspacing="0" width="100%">
 			<tr>
 				<td colspan='3'>
+					<p id="search">
+						<input type="text" id="address" placeholder="search" />
+						<button id="refreshmap" onclick="showAddress(); return false;">Find location</button>
+					</p>
 
-
-
-			<p id="search">
-				<input type="text" id="address" placeholder="search" />
-				<button id="refreshmap" onclick="showAddress(); return false;">Find location</button>
-			</p>
-
-						<div id="gmap" style="height: 380px; outline: 1px solid #333;">
-				<p style="line-height:380px;text-align:center;">preview map here</p>
-			</div>
-			<?php
-			// $lc = get_post_meta( get_the_ID(), 'location_center', true );
-			// if ( empty( $lc ) ) $lc = '0,0';
-			// list( $latitude, $longitude) = array_map( 'trim', explode( ',', $lc ) );
-			// $map_zoom = get_post_meta( get_the_ID(), 'map_zoom', true );
-			// if ( empty( $map_zoom ) ) $map_zoom = '10';
-
-			$latitude = $longitude = 0.0;
-			$map_zoom = 6;
-			$map_type = 'roadmap';
-			?>
+					<div id="gmap" style="height: 380px; outline: 1px solid #333;">
+						<p style="line-height:380px;text-align:center;">preview map here</p>
+					</div>
 				</td>
 			</tr>
 			<tr class="fields">
+				<?php
+					$latitude = $longitude = 0.0;
+					$map_zoom = 6;
+					$map_type = 'roadmap';
+				?>
 				<td>
-		<p><label>Latitude:<br /><input id="latitude" name="latitude" type="text" value="<?php echo $latitude; ?>" /></label><br /><small>decimal format</small><br />
-		<label>Longitude:<br /><input id="longitude" name="longitude" type="text" value="<?php echo $longitude; ?>" /></label><br /><small>decimal format</small></p>
+					<p><label>Latitude:<br /><input id="latitude" name="latitude" type="text" value="<?php echo $latitude; ?>" /></label><br /><small>decimal format</small><br />
+					<label>Longitude:<br /><input id="longitude" name="longitude" type="text" value="<?php echo $longitude; ?>" /></label><br /><small>decimal format</small></p>
 				</td>
 				<td>
-		<p><label>Map Zoom:<br /><input id="map_zoom" name="map_zoom" type="text" value="<?php echo $map_zoom; ?>" /></label><br /><small>0 (farthest) - 22 (closest)</small><br />
-		<label>Map Type:<br /><input id="map_type" name="map_type" type="text" value="<?php echo $map_type; ?>" /></label><br /><small>roadmap, satellite, hybrid, terrain</small></p>
+					<p><label>Map Zoom:<br /><input id="map_zoom" name="map_zoom" type="text" value="<?php echo $map_zoom; ?>" /></label><br /><small>0 (farthest) - 22 (closest)</small><br />
+					<label>Map Type:<br /><input id="map_type" name="map_type" type="text" value="<?php echo $map_type; ?>" /></label><br /><small>roadmap, satellite, hybrid, terrain</small></p>
 				</td>
 				<td>
-		<p><label>Bubble:<br /><textarea id="bubble" name="bubble"></textarea></label></p>
-
-
-<script>
-	document.getElementById("longitude").onblur=gmap_init;
-	document.getElementById("latitude").onblur=gmap_init;
-	document.getElementById("map_zoom").onblur=gmap_init;
-	document.getElementById("map_type").onblur=gmap_init;
-</script>
-
-
+					<p><label>Bubble:<br /><textarea id="bubble" name="bubble"></textarea></label></p>
 				</td>
 			</tr>
 		</table>
-
-		<!-- </div> -->
 
 		<div class="mceActionPanel">
 			<div style="float: left">
@@ -160,5 +96,40 @@ td {
 			</div>
 		</div>
 	</form>
+	<script language="javascript" type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script language="javascript" type="text/javascript" src="<?php echo plugins_url( 'maps.js', __FILE__ ); ?>"></script>
+<script type="text/javascript">
+function insertLink(evt) {
+
+	var tagtext;
+
+	//get the form values
+	var lat = document.getElementById('latitude').value;
+	var lng = document.getElementById('longitude').value;
+	var zoom = document.getElementById('map_zoom').value;
+	var type = document.getElementById('map_type').value;
+	var bubble = document.getElementById('bubble').value;
+
+	if ( lat != '' && lng != '' ) {
+		tagtext = '[map lat='+ lat +' lng='+ lng +' zoom='+ zoom +' type='+ type +']';
+		if ( bubble != '' )
+			tagtext += bubble + '[/map]';
+	}
+	else
+		tinyMCEPopup.close();
+
+	if(window.tinyMCE) {
+		//send the shortcode to the editor
+		window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, tagtext);
+		//Peforms a clean up of the current editor HTML.
+		tinyMCEPopup.editor.execCommand('mceCleanup');
+		//Repaints the editor. Sometimes the browser has graphic glitches.
+		tinyMCEPopup.editor.execCommand('mceRepaint');
+		//close the popup window
+		tinyMCEPopup.close();
+	}
+	return;
+}
+</script>
 </body>
 </html>

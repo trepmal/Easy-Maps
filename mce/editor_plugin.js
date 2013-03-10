@@ -33,39 +33,7 @@
 				image : url + '/icon.gif'
 			});
 
-			// ed.onBeforeSetContent.add(function(ed, o) {
-			// 	o.content = t._do_gallery(o.content);
-			// });
-
-			// ed.onPostProcess.add(function(ed, o) {
-			// 	if (o.get)
-			// 		o.content = t._get_gallery(o.content);
-			// });
-
 		},
-
-		// _do_gallery : function(co) {
-		// 	return co.replace(/\[album([^\]]*)\]/g, function(a,b){
-		// 		return '<img src="'+tinymce.baseURL+'/plugins/wpgallery/img/t.gif" style="border: 1px dashed #888;background: #f2f8ff no-repeat scroll center center;width: 99%;height: 250px" class="wpAlbum mceItem" title="album'+tinymce.DOM.encode(b)+'" />';
-		// 	});
-		// },
-
-		// _get_gallery : function(co) {
-
-		// 	function getAttr(s, n) {
-		// 		n = new RegExp(n + '=\"([^\"]+)\"', 'g').exec(s);
-		// 		return n ? tinymce.DOM.decode(n[1]) : '';
-		// 	};
-
-		// 	return co.replace(/(?:<p[^>]*>)*(<img[^>]+>)(?:<\/p>)*/g, function(a,im) {
-		// 		var cls = getAttr(im, 'class');
-
-		// 		if ( cls.indexOf('wpAlbum') != -1 )
-		// 			return '<p>['+tinymce.trim(getAttr(im, 'title'))+']</p>';
-
-		// 		return a;
-		// 	});
-		// },
 
 	});
 

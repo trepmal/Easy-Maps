@@ -11,14 +11,12 @@
 		}
 	}
 	function update_form( map, marker ) {
-		if (  ! document.getElementById('lockcoords') || ! document.getElementById('lockcoords').checked ) {
 
-			lat = marker.getPosition().lat();
-			lng = marker.getPosition().lng();
+		lat = marker.getPosition().lat();
+		lng = marker.getPosition().lng();
 
-			document.getElementById("latitude").value = lat;
-			document.getElementById("longitude").value = lng;
-		}
+		document.getElementById("latitude").value = lat;
+		document.getElementById("longitude").value = lng;
 	}
 
 	function do_marker( map, position, alt_info ) {
@@ -38,6 +36,7 @@
 			content: '<div style="height:30px;">' + alt_info + '</div>'
 		});
 		infowindow.open(map,marker);
+
 		update_form( map, marker );
 
 		google.maps.event.addListener( marker, 'dragstart', function() {
@@ -46,12 +45,11 @@
 
 		google.maps.event.addListener( marker, 'dragend', function() {
 			update_form( map, marker );
-			document.getElementById("map_zoom").value = map.zoom;
 		});
 	}
 
 	function do_map( latitude, longitude ) {
-		// alert( document.getElementById("map_zoom").value );
+
 		var myLatlng = new google.maps.LatLng( latitude, longitude );
 		var options = {
 			zoom: parseInt( document.getElementById("map_zoom").value ),
@@ -59,7 +57,6 @@
 			mapTypeId: document.getElementById("map_type").value
 		}
 
-		// console.log( google.maps.MapTypeId.ROADMAP );
 
 		map = new google.maps.Map(document.getElementById("gmap"), options );
 		text = 'Drag Me!';
@@ -81,10 +78,6 @@
 
 		geocoder.geocode( { 'address': address}, function(results, status) {
 
-			document.getElementById("map_zoom").value = map.zoom;
-			// document.getElementById("map_type").value = map.zoom;
-			// console.log( map.mapTypeId );
-
 			if (status == google.maps.GeocoderStatus.OK) {
 				map.setCenter(results[0].geometry.location);
 				do_marker( map, results[0].geometry.location );
@@ -96,7 +89,6 @@
 
 		return false;
 	}
-
 
 	function gmap_init( ) {
 
@@ -112,14 +104,7 @@
 
 	window.onload=gmap_init;
 
-	// function _do_map() {
-	// 	do_map()
-	// }
-
-	function changeVal( ) {
-		if ( event.keyCode == 13 ) {
-			event.preventDefault();
-			showAddress();
-			return false;
-		}
-	}
+document.getElementById("longitude").onblur=gmap_init;
+document.getElementById("latitude").onblur=gmap_init;
+document.getElementById("map_zoom").onblur=gmap_init;
+document.getElementById("map_type").onblur=gmap_init;
