@@ -28,7 +28,7 @@
 			});
 
 			ed.addButton('egm_single_map', {
-				title : 'egm_single_map.desc',
+				title : 'Insert Google Map',
 				cmd : 'mceegm_single_map',
 				image : url + '/icon.gif'
 			});
