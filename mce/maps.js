@@ -132,8 +132,8 @@ function insertMapShortcode(evt) {
 	var zoom = document.getElementById('map_zoom').value;
 	var type = document.getElementById('map_type').value;
 	var bubble = document.getElementById('bubble').value;
-	var height = document.getElementById('map_type').value;
-	var width = document.getElementById('bubble').value;
+	var height = document.getElementById('height').value;
+	var width = document.getElementById('width').value;
 
 	if ( lat != '' && lng != '' ) {
 		tagtext = '[map lat='+ lat +' lng='+ lng +' zoom='+ zoom +' type='+ type +' height='+ height +' width='+ width +']';
