@@ -19,3 +19,5 @@ function make_easy_map( inst, lat, lng, zoom, type, bubble ) {
 	infowindow.open(map,marker);
 
 }
+
+//eof

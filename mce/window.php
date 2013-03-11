@@ -92,44 +92,11 @@ td {
 			</div>
 
 			<div style="float: right">
-				<input type="submit" id="insert" name="insert" value="<?php _e("Insert"); ?>" onclick="insertLink(event);" />
+				<input type="submit" id="insert" name="insert" value="<?php _e("Insert"); ?>" onclick="insertMapShortcode(event);" />
 			</div>
 		</div>
 	</form>
 	<script language="javascript" type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 	<script language="javascript" type="text/javascript" src="<?php echo plugins_url( 'maps.js', __FILE__ ); ?>"></script>
-<script type="text/javascript">
-function insertLink(evt) {
-
-	var tagtext;
-
-	//get the form values
-	var lat = document.getElementById('latitude').value;
-	var lng = document.getElementById('longitude').value;
-	var zoom = document.getElementById('map_zoom').value;
-	var type = document.getElementById('map_type').value;
-	var bubble = document.getElementById('bubble').value;
-
-	if ( lat != '' && lng != '' ) {
-		tagtext = '[map lat='+ lat +' lng='+ lng +' zoom='+ zoom +' type='+ type +']';
-		if ( bubble != '' )
-			tagtext += bubble + '[/map]';
-	}
-	else
-		tinyMCEPopup.close();
-
-	if(window.tinyMCE) {
-		//send the shortcode to the editor
-		window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, tagtext);
-		//Peforms a clean up of the current editor HTML.
-		tinyMCEPopup.editor.execCommand('mceCleanup');
-		//Repaints the editor. Sometimes the browser has graphic glitches.
-		tinyMCEPopup.editor.execCommand('mceRepaint');
-		//close the popup window
-		tinyMCEPopup.close();
-	}
-	return;
-}
-</script>
 </body>
 </html>

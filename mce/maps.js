@@ -1,110 +1,155 @@
-	var map = null;
-	var geocoder = new google.maps.Geocoder();
-	var marker = null;
-	var markersArray = [];
+var map = null;
+var geocoder = new google.maps.Geocoder();
+var marker = null;
+var markersArray = [];
 
-	function clear_markers() {
-		if (markersArray) {
-			for (i in markersArray) {
-				markersArray[i].setMap(null);
-			}
+function clear_markers() {
+	if (markersArray) {
+		for (i in markersArray) {
+			markersArray[i].setMap(null);
 		}
 	}
-	function update_form( map, marker ) {
+}
 
-		lat = marker.getPosition().lat();
-		lng = marker.getPosition().lng();
+function update_form( map, marker ) {
 
-		document.getElementById("latitude").value = lat;
-		document.getElementById("longitude").value = lng;
+	lat = marker.getPosition().lat();
+	lng = marker.getPosition().lng();
+
+	document.getElementById("latitude").value = lat;
+	document.getElementById("longitude").value = lng;
+}
+
+function do_marker( map, position, alt_info ) {
+
+	clear_markers();
+
+	marker = new google.maps.Marker({
+		position: position,
+		map: map,
+		title: "Drag Me!",
+		draggable: true
+	});
+	marker.setDraggable (true);
+	markersArray.push(marker);
+
+	if ( typeof(alt_info) == 'undefined' ) {
+		alt_info = 'Drag me to pinpoint your location!';
 	}
 
-	function do_marker( map, position, alt_info ) {
-		clear_markers();
-		marker = new google.maps.Marker({
-			position: position,
-			map: map,
-			title: "Drag Me!",
-			draggable: true
-		});
-		marker.setDraggable (true);
-		markersArray.push(marker);
-		if ( typeof(alt_info) == 'undefined' ) {
-			alt_info = 'Drag me to pinpoint your location!';
-		}
-		infowindow = new google.maps.InfoWindow({
-			content: '<div style="height:30px;">' + alt_info + '</div>'
-		});
-		infowindow.open(map,marker);
+	infowindow = new google.maps.InfoWindow({
+		content: '<div style="height:30px;">' + alt_info + '</div>'
+	});
+	infowindow.open( map, marker );
 
+	// update lat/lng fields
+	update_form( map, marker );
+
+	// close window when dragging
+	google.maps.event.addListener( marker, 'dragstart', function() {
+		infowindow.close( map, marker );
+	});
+
+	// update when marker dropped
+	google.maps.event.addListener( marker, 'dragend', function() {
 		update_form( map, marker );
+	});
+}
 
-		google.maps.event.addListener( marker, 'dragstart', function() {
-			infowindow.close(map,marker);
-		});
+function do_map( latitude, longitude ) {
 
-		google.maps.event.addListener( marker, 'dragend', function() {
-			update_form( map, marker );
-		});
+	var myLatlng = new google.maps.LatLng( latitude, longitude );
+	var options = {
+		zoom: parseInt( document.getElementById("map_zoom").value ),
+		center: myLatlng,
+		mapTypeId: document.getElementById("map_type").value
 	}
 
-	function do_map( latitude, longitude ) {
+	map = new google.maps.Map(document.getElementById("gmap"), options );
 
-		var myLatlng = new google.maps.LatLng( latitude, longitude );
-		var options = {
-			zoom: parseInt( document.getElementById("map_zoom").value ),
-			center: myLatlng,
-			mapTypeId: document.getElementById("map_type").value
+	text = 'Drag Me!';
+	if ( lat == '0' && lng == '0' ) {
+		text = 'Enter an address to get started';
+	}
+	do_marker( map, myLatlng, text );
+
+	// when map zoom changed, update form field
+	google.maps.event.addListener( map, 'zoom_changed', function() {
+		document.getElementById("map_zoom").value = map.zoom;
+	});
+	// when map type changed, update form field
+	google.maps.event.addListener( map, 'maptypeid_changed', function() {
+		document.getElementById("map_type").value = map.mapTypeId;
+	});
+}
+
+// when updating map on given address
+function showAddress() {
+	address = document.getElementById("address").value;
+
+	geocoder.geocode( { 'address': address}, function(results, status) {
+
+		if ( status == google.maps.GeocoderStatus.OK ) {
+			map.setCenter( results[0].geometry.location );
+			do_marker( map, results[0].geometry.location );
+		} else {
+			alert("Geocode was not successful for the following reason: " + status + "\nDid you provide a city and state?");
 		}
 
+	});
 
-		map = new google.maps.Map(document.getElementById("gmap"), options );
-		text = 'Drag Me!';
-		if (lat == '0' && lng == '0' ) {
-			text = 'Enter an address to get started';
-		}
-		do_marker( map, myLatlng, text );
+	return false;
+}
 
-		google.maps.event.addListener( map, 'zoom_changed', function() {
-			document.getElementById("map_zoom").value = map.zoom;
-		});
-		google.maps.event.addListener( map, 'maptypeid_changed', function() {
-			document.getElementById("map_type").value = map.mapTypeId;
-		});
+function gmap_init( ) {
+
+	lat = document.getElementById("latitude").value;
+	lng = document.getElementById("longitude").value;
+
+	if ( lat == '' && lng == '' ) {
+		lat = 0;
+		lng = 0;
 	}
+	do_map(lat, lng);
+}
 
-	function showAddress() {
-		address = document.getElementById("address").value;
+window.onload=gmap_init;
 
-		geocoder.geocode( { 'address': address}, function(results, status) {
-
-			if (status == google.maps.GeocoderStatus.OK) {
-				map.setCenter(results[0].geometry.location);
-				do_marker( map, results[0].geometry.location );
-			} else {
-				alert("Geocode was not successful for the following reason: " + status + "\nDid you provide a city and state?");
-			}
-
-		});
-
-		return false;
-	}
-
-	function gmap_init( ) {
-
-		lat = document.getElementById("latitude").value;
-		lng = document.getElementById("longitude").value;
-
-		if ( lat == '' && lng == '' ) {
-			lat = 0;
-			lng = 0;
-		}
-		do_map(lat, lng);
-	}
-
-	window.onload=gmap_init;
-
+// update map on form field change
 document.getElementById("longitude").onblur=gmap_init;
 document.getElementById("latitude").onblur=gmap_init;
 document.getElementById("map_zoom").onblur=gmap_init;
 document.getElementById("map_type").onblur=gmap_init;
+
+// do insert on button click
+function insertMapShortcode(evt) {
+
+	var tagtext;
+
+	//get the form values
+	var lat = document.getElementById('latitude').value;
+	var lng = document.getElementById('longitude').value;
+	var zoom = document.getElementById('map_zoom').value;
+	var type = document.getElementById('map_type').value;
+	var bubble = document.getElementById('bubble').value;
+
+	if ( lat != '' && lng != '' ) {
+		tagtext = '[map lat='+ lat +' lng='+ lng +' zoom='+ zoom +' type='+ type +']';
+		if ( bubble != '' )
+			tagtext += bubble + '[/map]';
+	}
+	else
+		tinyMCEPopup.close();
+
+	if(window.tinyMCE) {
+		//send the shortcode to the editor
+		window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, tagtext);
+		//Peforms a clean up of the current editor HTML.
+		tinyMCEPopup.editor.execCommand('mceCleanup');
+		//Repaints the editor. Sometimes the browser has graphic glitches.
+		tinyMCEPopup.editor.execCommand('mceRepaint');
+		//close the popup window
+		tinyMCEPopup.close();
+	}
+	return;
+}
