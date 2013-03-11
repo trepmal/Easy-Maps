@@ -116,7 +116,9 @@ class EGM_Insert_Single_Map {
 			'lat' => 0,
 			'lng' => 0,
 			'zoom' => 10,
-			'type' => 'roadmap'
+			'type' => 'roadmap',
+			'width' => '100%',
+			'height' => '400px'
 		), $atts ) );
 		if ( ! $lat || ! $lng ) return;
 
@@ -125,7 +127,7 @@ class EGM_Insert_Single_Map {
 		wp_enqueue_script( 'easy-google-maps', plugins_url( 'easy-maps.js', __FILE__ ), array('googlemapsapi') );
 
 		global $content_width;
-		$html = "<div style='width:{$content_width}px;height:400px;' class='easy-google-map' id='easy-google-map-{$easy_map_instance}'>
+		$html = "<div style='width:{$width};height:{$height};' class='easy-google-map' id='easy-google-map-{$easy_map_instance}'>
 		<script>jQuery(document).ready( function() { make_easy_map( 'easy-google-map-{$easy_map_instance}', $lat, $lng, $zoom, '$type', '$content' ); });</script></div><style>.easy-google-map img { max-width: initial !important; }</style>";
 		return $html;
 

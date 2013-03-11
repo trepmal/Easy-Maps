@@ -44,10 +44,15 @@ td {
 	font-size: 13px;
 }
 .fields input,
+.fields select,
 .fields textarea {
 	display: block;
 	padding: 3px;
 	font-size: 13px;
+	width: 100%;
+}
+.fields select {
+	margin: 4px 0;
 }
 </style>
 </head>
@@ -71,17 +76,39 @@ td {
 					$latitude = $longitude = 0.0;
 					$map_zoom = 6;
 					$map_type = 'roadmap';
+					$width = '100%';
+					$height = '400px';
 				?>
 				<td>
-					<p><label>Latitude:<br /><input id="latitude" name="latitude" type="text" value="<?php echo $latitude; ?>" /></label><br /><small>decimal format</small><br />
-					<label>Longitude:<br /><input id="longitude" name="longitude" type="text" value="<?php echo $longitude; ?>" /></label><br /><small>decimal format</small></p>
+					<p>
+						<label>Latitude:<br /><input id="latitude" name="latitude" type="text" value="<?php echo $latitude; ?>" /><small>decimal format</small></label>
+						</p><p>
+						<label>Longitude:<br /><input id="longitude" name="longitude" type="text" value="<?php echo $longitude; ?>" /><small>decimal format</small></label>
+					</p>
 				</td>
 				<td>
-					<p><label>Map Zoom:<br /><input id="map_zoom" name="map_zoom" type="text" value="<?php echo $map_zoom; ?>" /></label><br /><small>0 (farthest) - 22 (closest)</small><br />
-					<label>Map Type:<br /><input id="map_type" name="map_type" type="text" value="<?php echo $map_type; ?>" /></label><br /><small>roadmap, satellite, hybrid, terrain</small></p>
+					<p>
+						<!-- <label>Map Zoom:<br /><input id="map_zoom" name="map_zoom" type="text" value="<?php echo $map_zoom; ?>" /></label><br /><small>0 (farthest) - 22 (closest)</small><br /> -->
+						<label>Map Zoom:<br /><input id="map_zoom" name="map_zoom" type="number" min='0' max='22' value="<?php echo $map_zoom; ?>" /><small>0 (farthest) - 22 (closest)</small></label><br />
+						<!-- <label>Map Type:<br /><input id="map_type" name="map_type" type="text" value="<?php echo $map_type; ?>" /></label><br /><small>roadmap, satellite, hybrid, terrain</small> -->
+						</p><p>
+						<label>Map Type:<br />
+						<select id="map_type" name="map_type"><?php //echo $map_type; ?>
+							<option <?php selected( $map_type, 'roadmap'); ?>>roadmap</option>
+							<option <?php selected( $map_type, 'satellite'); ?>>satellite</option>
+							<option <?php selected( $map_type, 'hybrid'); ?>>hybrid</option>
+							<option <?php selected( $map_type, 'terrain'); ?>>terrain</option>
+						</select>
+						</label><br /><small></small>
+					</p>
 				</td>
 				<td>
 					<p><label>Bubble:<br /><textarea id="bubble" name="bubble"></textarea></label></p>
+					<p>
+						<label style="width:48%;float:left">Width:<br /><input id="width" name="width" type="text" value="<?php echo $width; ?>" /><small>include units</small></label>
+						<label style="width:48%;float:right">Height:<br /><input id="height" name="height" type="text" value="<?php echo $height; ?>" /><small>include units</small></label>
+						<br style="clear:both;" />
+					</p>
 				</td>
 			</tr>
 		</table>
