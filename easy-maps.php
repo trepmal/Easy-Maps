@@ -127,8 +127,9 @@ class EGM_Insert_Single_Map {
 		wp_enqueue_script( 'easy-google-maps', plugins_url( 'easy-maps.js', __FILE__ ), array('googlemapsapi') );
 
 		global $content_width;
-		$html = "<div style='width:{$width};height:{$height};' class='easy-google-map' id='easy-google-map-{$easy_map_instance}'>
-		<script>jQuery(document).ready( function() { make_easy_map( 'easy-google-map-{$easy_map_instance}', $lat, $lng, $zoom, '$type', '$content' ); });</script></div><style>.easy-google-map img { max-width: initial !important; }</style>";
+		$html = "<div style='width:{$width};height:{$height};' class='easy-google-map' id='easy-google-map-{$easy_map_instance}'
+		data-lat='$lat' data-lng='$lng' data-zoom='$zoom' data-type='$type' data-content='$content'></div>
+		<style>.easy-google-map img { max-width: initial !important; }</style>";
 		return $html;
 
 	}
