@@ -112,21 +112,20 @@ class EGM_Insert_Single_Map {
 		if ( is_null( $easy_map_instance ) ) $easy_map_instance = 1;
 		else                               ++$easy_map_instance;
 
+		global $content_width;
 		extract( shortcode_atts( array(
 			'lat' => 0,
 			'lng' => 0,
 			'zoom' => 10,
 			'type' => 'roadmap',
-			'width' => '100%',
+			'width' => "{$content_width}px",
 			'height' => '400px'
 		), $atts ) );
 		if ( ! $lat || ! $lng ) return;
 
-		wp_enqueue_script( 'jquery' ); /* sorry. my non-jquery js sucks */
 		wp_enqueue_script( 'googlemapsapi', 'http://maps.googleapis.com/maps/api/js?sensor=false' );
-		wp_enqueue_script( 'easy-google-maps', plugins_url( 'easy-maps.js', __FILE__ ), array('googlemapsapi') );
+		wp_enqueue_script( 'easy-google-maps', plugins_url( 'easy-maps.js', __FILE__ ), array( 'jquery', 'googlemapsapi') );
 
-		global $content_width;
 		$html = "<div style='width:{$width};height:{$height};' class='easy-google-map' id='easy-google-map-{$easy_map_instance}'
 		data-lat='$lat' data-lng='$lng' data-zoom='$zoom' data-type='$type' data-content='$content'></div>
 		<style>.easy-google-map img { max-width: initial !important; }</style>";
