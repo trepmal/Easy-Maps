@@ -25,16 +25,16 @@ function do_marker( map, position, alt_info ) {
 	clear_markers();
 
 	marker = new google.maps.Marker({
-		position: position,
-		map: map,
-		title: "Drag Me!",
+		position:  position,
+		map:       map,
+		title:     easymaps.markertitle,
 		draggable: true
 	});
 	marker.setDraggable (true);
 	markersArray.push(marker);
 
 	if ( typeof(alt_info) == 'undefined' ) {
-		alt_info = 'Drag me to pinpoint your location!';
+		alt_info = easymaps.dragme;
 	}
 
 	infowindow = new google.maps.InfoWindow({
@@ -60,16 +60,16 @@ function do_map( latitude, longitude ) {
 
 	var myLatlng = new google.maps.LatLng( latitude, longitude );
 	var options = {
-		zoom: parseInt( document.getElementById("map_zoom").value ),
-		center: myLatlng,
+		zoom:      parseInt( document.getElementById("map_zoom").value ),
+		center:    myLatlng,
 		mapTypeId: document.getElementById("map_type").value
 	}
 
 	map = new google.maps.Map(document.getElementById("gmap"), options );
 
-	text = 'Drag Me!';
+	text = easymaps.markertitle;
 	if ( lat == '0' && lng == '0' ) {
-		text = 'Enter an address to get started';
+		text = easymaps.getstarted;
 	}
 	do_marker( map, myLatlng, text );
 
@@ -127,13 +127,13 @@ function insertMapShortcode(evt) {
 	var tagtext;
 
 	//get the form values
-	var lat = document.getElementById('latitude').value;
-	var lng = document.getElementById('longitude').value;
-	var zoom = document.getElementById('map_zoom').value;
-	var type = document.getElementById('map_type').value;
+	var lat    = document.getElementById('latitude').value;
+	var lng    = document.getElementById('longitude').value;
+	var zoom   = document.getElementById('map_zoom').value;
+	var type   = document.getElementById('map_type').value;
 	var bubble = document.getElementById('bubble').value;
 	var height = document.getElementById('height').value;
-	var width = document.getElementById('width').value;
+	var width  = document.getElementById('width').value;
 
 	if ( lat != '' && lng != '' ) {
 		tagtext = '[map lat='+ lat +' lng='+ lng +' zoom='+ zoom +' type='+ type +' height='+ height +' width='+ width +']';

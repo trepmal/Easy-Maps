@@ -6,7 +6,7 @@ if ( ! defined('ABSPATH') )
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>Easy Map</title>
+	<title><?php _e( 'Easy Map', 'easy-maps' ); ?></title>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<script language="javascript" type="text/javascript" src="<?php echo includes_url('js/tinymce/tiny_mce_popup.js'); ?>"></script>
 	<base target="_self" />
@@ -63,11 +63,11 @@ td {
 				<td colspan='3'>
 					<p id="search">
 						<input type="text" id="address" placeholder="search" />
-						<button id="refreshmap" onclick="showAddress(); return false;">Find location</button>
+						<button id="refreshmap" onclick="showAddress(); return false;"><?php _e( 'Find location', 'easy-maps' ); ?></button>
 					</p>
 
 					<div id="gmap" style="height: 380px; outline: 1px solid #333;">
-						<p style="line-height:380px;text-align:center;">preview map here</p>
+						<p style="line-height:380px;text-align:center;"><?php _e( 'preview map here', 'easy-maps' ); ?></p>
 					</div>
 				</td>
 			</tr>
@@ -76,54 +76,60 @@ td {
 					$latitude = $longitude = 0.0;
 					$map_zoom = 6;
 					$map_type = 'roadmap';
-					$width = '100%';
-					$height = '400px';
+					$width    = '100%';
+					$height   = '400px';
 				?>
-				<td>
+				<td style="vertical-align:top;">
 					<p>
-						<label>Latitude:<br /><input id="latitude" name="latitude" type="text" value="<?php echo $latitude; ?>" /><small>decimal format</small></label>
-						</p><p>
-						<label>Longitude:<br /><input id="longitude" name="longitude" type="text" value="<?php echo $longitude; ?>" /><small>decimal format</small></label>
+						<label><?php _e( 'Latitude', 'easy-maps' ); ?>:<br />
+							<input id="latitude" name="latitude" type="text" value="<?php echo $latitude; ?>" /><small><?php _e( 'decimal format', 'easy-maps' ); ?></small>
+						</label>
+					</p>
+					<p>
+						<label><?php _e( 'Longitude', 'easy-maps' ); ?>:<br />
+							<input id="longitude" name="longitude" type="text" value="<?php echo $longitude; ?>" /><small><?php _e( 'decimal format', 'easy-maps' ); ?></small>
+						</label>
 					</p>
 				</td>
-				<td>
+				<td style="vertical-align:top;">
 					<p>
-						<!-- <label>Map Zoom:<br /><input id="map_zoom" name="map_zoom" type="text" value="<?php echo $map_zoom; ?>" /></label><br /><small>0 (farthest) - 22 (closest)</small><br /> -->
-						<label>Map Zoom:<br /><input id="map_zoom" name="map_zoom" type="number" min='0' max='22' value="<?php echo $map_zoom; ?>" /><small>0 (farthest) - 22 (closest)</small></label><br />
-						<!-- <label>Map Type:<br /><input id="map_type" name="map_type" type="text" value="<?php echo $map_type; ?>" /></label><br /><small>roadmap, satellite, hybrid, terrain</small> -->
-						</p><p>
-						<label>Map Type:<br />
-						<select id="map_type" name="map_type"><?php //echo $map_type; ?>
-							<option <?php selected( $map_type, 'roadmap'); ?>>roadmap</option>
-							<option <?php selected( $map_type, 'satellite'); ?>>satellite</option>
-							<option <?php selected( $map_type, 'hybrid'); ?>>hybrid</option>
-							<option <?php selected( $map_type, 'terrain'); ?>>terrain</option>
+						<label><?php _e( 'Map Zoom', 'easy-maps' ); ?>:<br />
+							<input id="map_zoom" name="map_zoom" type="number" min='0' max='22' value="<?php echo $map_zoom; ?>" /><small>0 (<?php _e( 'farthest', 'easy-maps' ); ?>) - 22 (<?php _e( 'closest', 'easy-maps' ); ?>)</small>
+						</label>
+					</p>
+					<p>
+						<label><?php _e( 'Map Type', 'easy-maps' ); ?>:<br />
+						<select id="map_type" name="map_type">
+							<option <?php selected( $map_type, 'roadmap');   ?>><?php _e( 'roadmap', 'easy-maps' );   ?></option>
+							<option <?php selected( $map_type, 'satellite'); ?>><?php _e( 'satellite', 'easy-maps' ); ?></option>
+							<option <?php selected( $map_type, 'hybrid');    ?>><?php _e( 'hybrid', 'easy-maps' );    ?></option>
+							<option <?php selected( $map_type, 'terrain');   ?>><?php _e( 'terrain', 'easy-maps' );   ?></option>
 						</select>
-						</label><br /><small></small>
+						</label>
 					</p>
 				</td>
-				<td>
-					<p><label>Bubble:<br /><textarea id="bubble" name="bubble"></textarea></label></p>
+				<td style="vertical-align:top;">
 					<p>
-						<label style="width:48%;float:left">Width:<br /><input id="width" name="width" type="text" value="<?php echo $width; ?>" /><small>include units</small></label>
-						<label style="width:48%;float:right">Height:<br /><input id="height" name="height" type="text" value="<?php echo $height; ?>" /><small>include units</small></label>
-						<br style="clear:both;" />
+						<label><?php _e( 'Bubble', 'easy-maps' ); ?>:</label><br />
+						<textarea id="bubble" name="bubble"></textarea>
+					</p>
+					<p>
+						<label style="width:48%;float:left;"><?php _e( 'Width', 'easy-maps' ); ?>:<br /><input id="width" name="width" type="text" value="<?php echo $width; ?>" /><small><?php _e( 'include units', 'easy-maps' ); ?></small></label>
+						<label style="width:48%;float:right;"><?php _e( 'Height', 'easy-maps' ); ?>:<br /><input id="height" name="height" type="text" value="<?php echo $height; ?>" /><small><?php _e( 'include units', 'easy-maps' ); ?></small></label>
 					</p>
 				</td>
 			</tr>
 		</table>
 
 		<div class="mceActionPanel">
-			<div style="float: left">
-				<input type="button" id="cancel" name="cancel" value="<?php _e("Cancel"); ?>" onclick="tinyMCEPopup.close();" />
-			</div>
-
-			<div style="float: right">
-				<input type="submit" id="insert" name="insert" value="<?php _e("Insert"); ?>" onclick="insertMapShortcode(event);" />
-			</div>
+			<p style="text-align:right;">
+				<input class="button-small" type="button" id="cancel" name="cancel" value="<?php _e( 'Cancel', 'easy-maps' ); ?>" onclick="tinyMCEPopup.close();" />
+				<input type="submit" id="insert" name="insert" value="<?php _e( 'Insert', 'easy-maps' ); ?>" onclick="insertMapShortcode(event);" />
+			</p>
 		</div>
 	</form>
 	<script language="javascript" type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script>var easymaps = <?php echo json_encode( $window_strings ); ?>;</script>
 	<script language="javascript" type="text/javascript" src="<?php echo plugins_url( 'maps.js', __FILE__ ); ?>"></script>
 </body>
 </html>
