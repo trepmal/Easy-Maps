@@ -20,15 +20,15 @@ class EGM_Insert_Single_Map {
 	function __construct()  {
 
 		// Modify the version when tinyMCE plugins are changed.
-		add_filter( 'tiny_mce_version',               array( &$this, 'tiny_mce_version') );
+		add_filter( 'tiny_mce_version',               array( $this, 'tiny_mce_version') );
 
 		// init process for button control
-		add_action( 'init',                           array( &$this, 'init') );
+		add_action( 'init',                           array( $this, 'init') );
 
 		// init process for ajax popup
-		add_action( 'wp_ajax_egm_single_map_tinymce', array( &$this, 'window_cb') );
+		add_action( 'wp_ajax_egm_single_map_tinymce', array( $this, 'window_cb') );
 
-		add_shortcode( 'map',                         array( &$this, 'shortcode_map') );
+		add_shortcode( 'map',                         array( $this, 'shortcode_map') );
 
 	}
 
@@ -46,8 +46,8 @@ class EGM_Insert_Single_Map {
 
 		// Add only in Rich Editor mode
 		if ( get_user_option('rich_editing') == 'true') {
-			add_filter( 'mce_external_plugins', array( &$this, 'mce_external_plugins' ) );
-			add_filter( 'mce_buttons',          array( &$this, 'mce_buttons' ), 0 );
+			add_filter( 'mce_external_plugins', array( $this, 'mce_external_plugins' ) );
+			add_filter( 'mce_buttons',          array( $this, 'mce_buttons' ), 0 );
 		}
 	}
 
@@ -63,7 +63,8 @@ class EGM_Insert_Single_Map {
 
 		// I probably shouldn't put this here, but it works and is convenient
 		?><style>
-		span.mce_egm_single_map:before {
+		i.mce-i-egm_single_map:before {
+			font-family: dashicons;
 			content: "\f231";
 		}
 		</style><?php

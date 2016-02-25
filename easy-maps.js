@@ -13,10 +13,12 @@ function make_easy_map( inst, lat, lng, zoom, type, bubble ) {
 	}
 	marker = new google.maps.Marker( markerOpts );
 
-	infowindow = new google.maps.InfoWindow({
-		content: bubble
-	});
-	infowindow.open(map,marker);
+	if ( '' != bubble ) {
+		infowindow = new google.maps.InfoWindow({
+			content: bubble
+		});
+		infowindow.open(map,marker);
+	}
 
 }
 jQuery(document).ready( function($) {

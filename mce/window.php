@@ -11,31 +11,9 @@ if ( ! defined('ABSPATH') )
 	<script language="javascript" type="text/javascript" src="<?php echo includes_url('js/tinymce/tiny_mce_popup.js'); ?>"></script>
 	<base target="_self" />
 <style>
-#search {
-	background: white;
-	padding: 2px 130px 2px 5px;
-	position: relative;
-}
-#address {
-	font-size: 15px;
-	padding: 3px 0;
+input#address {
 	width: 100%;
-	border: 0;
-	display: block;
-}
-#address:focus {
-	background: whitesmoke;
-	outline: 0;
-}
-#refreshmap {
-	position: absolute;
-	top: 2px;
-	right: 3px;
-	font-size: 15px;
-	padding: 2px 4px;
-	width: 120px;
-	border: 2px solid lightgrey;
-	background: whitesmoke;
+	font-size: 18px;
 }
 td {
 	width:33%;
@@ -60,11 +38,17 @@ td {
 	<form action="#">
 		<table border="0" cellpadding="4" cellspacing="0" width="100%">
 			<tr>
-				<td colspan='3'>
+				<td colspan='2'>
 					<p id="search">
 						<input type="text" id="address" placeholder="search" />
-						<button id="refreshmap" onclick="showAddress(); return false;"><?php _e( 'Find location', 'easy-maps' ); ?></button>
 					</p>
+				</td>
+				<td>
+						<button id="refreshmap" onclick="showAddress(); return false;"><?php _e( 'Find location', 'easy-maps' ); ?></button>
+				</td>
+			</tr>
+			<tr>
+				<td colspan='3'>
 
 					<div id="gmap" style="height: 380px; outline: 1px solid #333;">
 						<p style="line-height:380px;text-align:center;"><?php _e( 'preview map here', 'easy-maps' ); ?></p>
@@ -122,9 +106,10 @@ td {
 		</table>
 
 		<div class="mceActionPanel">
-			<p style="text-align:right;">
-				<input class="button-small" type="button" id="cancel" name="cancel" value="<?php _e( 'Cancel', 'easy-maps' ); ?>" onclick="tinyMCEPopup.close();" />
+			<p>
 				<input type="submit" id="insert" name="insert" value="<?php _e( 'Insert', 'easy-maps' ); ?>" onclick="insertMapShortcode(event);" />
+
+				<input class="button-small" type="button" id="cancel" name="cancel" value="<?php _e( 'Cancel', 'easy-maps' ); ?>" onclick="tinyMCEPopup.close();" />
 			</p>
 		</div>
 	</form>
