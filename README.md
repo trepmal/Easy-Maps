@@ -13,3 +13,12 @@ Dialog
 
 Published map  
 ![published](screenshot-3.png)
+
+
+@todo
+
+ - editing with out completely re-adding
+ - recenter map over manually changed coords
+ - live preview of bubble caption
+ - option to hide marker
+ - marker variations?
