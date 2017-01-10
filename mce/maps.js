@@ -137,8 +137,7 @@ function insertMapShortcode(evt) {
 
 	if ( lat != '' && lng != '' ) {
 		tagtext = '[map lat='+ lat +' lng='+ lng +' zoom='+ zoom +' type='+ type +' height='+ height +' width='+ width +']';
-		if ( bubble != '' )
-			tagtext += bubble + '[/map]';
+		tagtext += bubble + '[/map]';
 	}
 	else
 		tinyMCEPopup.close();

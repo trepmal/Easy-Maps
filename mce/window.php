@@ -113,7 +113,7 @@ td {
 			</p>
 		</div>
 	</form>
-	<script language="javascript" type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script language="javascript" type="text/javascript" src="<?php echo esc_url( $window_strings['maps_api_url'] ); unset( $window_strings['maps_api_url'] ); ?>"></script>
 	<script>var easymaps = <?php echo json_encode( $window_strings ); ?>;</script>
 	<script language="javascript" type="text/javascript" src="<?php echo plugins_url( 'maps.js', __FILE__ ); ?>"></script>
 </body>
